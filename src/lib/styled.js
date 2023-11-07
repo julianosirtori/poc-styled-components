@@ -28,16 +28,25 @@ function injectStyle(className, styles) {
   styleTag.appendChild(node);
 }
 
-const styledBase = (domElement) => (styles) => {
-  const className = createClassName(domElement);
-  injectStyle(className, styles);
+function interpolateStyle(strs, props, exprs) {
+  return exprs.reduce((result, expr, index) => {
+    const isFunc = typeof expr === "function";
+    const value = isFunc ? expr(props) : expr;
+    return result + value + strs[index + 1];
+  }, strs[0]);
+}
 
-  const Element = (teste) => {
-    return createElement(domElement, { className }, teste.children);
+const styledBase =
+  (domElement) =>
+  (strs, ...exprs) => {
+    const Element = (props) => {
+      const styles = interpolateStyle(strs, props, exprs);
+      const className = createClassName(domElement);
+      injectStyle(className, styles);
+      return createElement(domElement, { className }, props.children);
+    };
+    return Element;
   };
-  Element.displayName = "Teste";
-  return Element;
-};
 
 export const styled = styledBase;
 

@@ -3,7 +3,7 @@ import { styled } from './lib/styled'
 
 const Button = styled.button`
   border: none;
-  background: red;
+  background: #e82a2a;
   padding:  27px;
   margin-right: 12px;
 `
@@ -11,7 +11,7 @@ const Button = styled.button`
 const Box = styled.div`
   width: 100px;
   height: 100px;
-  border: 1px solid green;
+  background: ${({color}) => color};
 `
 
 
@@ -24,9 +24,9 @@ function App() {
         Teste
       </Button>
       <Button>
-        <Box/>
+        <Box color="red" />
       </Button>
-      <Box/>
+      <Box color="green"/>
     </div>
    
   )
